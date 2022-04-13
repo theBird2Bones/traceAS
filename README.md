@@ -10,4 +10,5 @@
 + java ./traceAS.java 174.138.106.148
 
 ### Requirements
-+ java 9+
++ java 9
++ tracert(Windows) или traceroute(Linux) 
