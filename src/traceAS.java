@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -77,9 +78,14 @@ public class traceAS {
     private static Reader getIpTracert(String name) {
         Process traceRt = null;
         try {
-            traceRt = Runtime.getRuntime().exec(String.format("tracert %s", name));
+            if(System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("win")){
+                traceRt = Runtime.getRuntime().exec(String.format("tracert %s", name));
+            } else {
+                traceRt = Runtime.getRuntime().exec(String.format("traceroute %s", name));
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Please be sure traceroute has been installed");
+            return new StringReader("");
         }
         if(new Scanner(traceRt.getInputStream())
                 .nextLine().toLowerCase(Locale.ROOT)
